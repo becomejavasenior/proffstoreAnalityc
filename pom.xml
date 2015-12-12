@@ -65,8 +65,8 @@
 			<artifactId>spark-core</artifactId>
 			<version>2.3</version>
 		</dependency>
-		
-		
+
+
 		<!-- Used for creating HTML templates -->
 		<dependency>
 			<groupId>org.freemarker</groupId>
@@ -78,13 +78,47 @@
 			<artifactId>spark-template-freemarker</artifactId>
 			<version>2.0.0</version>
 		</dependency>
-		
-		
+
+
 		<!-- Used for converting response into JSON -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
 			<artifactId>gson</artifactId>
 			<version>2.3.1</version>
+		</dependency>
+
+		<!-- Upwork -->
+		<dependency>
+			<groupId>com.Upwork</groupId>
+			<artifactId>api</artifactId>
+			<version>1.1.0</version>
+		</dependency>
+
+		<!-- Easy REST requests -->
+		<dependency>
+			<groupId>com.mashape.unirest</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpclient</artifactId>
+			<version>4.3.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpasyncclient</artifactId>
+			<version>4.0.2</version>
+		</dependency>
+		<dependency>
+			<groupId>org.apache.httpcomponents</groupId>
+			<artifactId>httpmime</artifactId>
+			<version>4.3.6</version>
+		</dependency>
+		<dependency>
+			<groupId>org.json</groupId>
+			<artifactId>json</artifactId>
+			<version>20140107</version>
 		</dependency>
 	</dependencies>
 </project>

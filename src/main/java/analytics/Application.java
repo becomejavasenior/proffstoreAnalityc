@@ -1,9 +1,11 @@
 package analytics;
 
 import static spark.Spark.*;
+import analytics.controller.ElanceController;
 import analytics.controller.MainController;
 import analytics.controller.ProffstoreController;
 import analytics.controller.UpworkController;
+import analytics.service.ElanceService;
 import analytics.service.ProffstoreService;
 import analytics.service.UpworkService;
 
@@ -52,6 +54,7 @@ public class Application {
 
 		// Controllers with REST APIs
 		// (JSON)
+		new ElanceController(new ElanceService());
 		new UpworkController(new UpworkService());
 		new ProffstoreController(new ProffstoreService());
 	}
