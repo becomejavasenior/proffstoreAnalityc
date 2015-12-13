@@ -51,8 +51,7 @@
 					<processTypes>
 						<!-- Tell Heroku how to launch your application -->
 						<!-- You might have to remove the ./ in front -->
-						<web>java -jar
-							target/analytics-0.0.1-SNAPSHOT-jar-with-dependencies.jar</web>
+						<web>java -jar target/analytics-0.0.1-SNAPSHOT-jar-with-dependencies.jar</web>
 					</processTypes>
 				</configuration>
 			</plugin>
@@ -110,13 +109,6 @@
 			<groupId>junit</groupId>
 			<artifactId>junit</artifactId>
 			<version>4.10</version>
-		</dependency>
-
-		<!-- Database -->
-		<dependency>
-			<groupId>org.mongodb</groupId>
-			<artifactId>mongodb-driver</artifactId>
-			<version>3.0.4</version>
 		</dependency>
 
 		<dependency>

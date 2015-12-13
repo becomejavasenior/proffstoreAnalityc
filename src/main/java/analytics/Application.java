@@ -1,11 +1,6 @@
 package analytics;
 
 import static spark.Spark.*;
-
-import com.mongodb.MongoClient;
-import com.mongodb.MongoClientURI;
-import com.mongodb.client.MongoDatabase;
-
 import analytics.controller.ElanceController;
 import analytics.controller.MainController;
 import analytics.controller.ProffstoreController;
@@ -50,10 +45,6 @@ public class Application {
 			response.body(e.getMessage());
 		});
 
-		/**
-		 * Database initialization
-		 */
-		//MongoDatabase database = getDatabase();
 
 		/**
 		 * Controllers initialization
@@ -68,23 +59,4 @@ public class Application {
 		new UpworkController(new UpworkService());
 		new ProffstoreController(new ProffstoreService());
 	}
-
-	// TODO: set local Database name and Heroku database name into properties
-	/*
-	public static MongoDatabase getDatabase() {
-		final String mongoClientUri;
-		final String databaseName;
-		final String mongoLabUri = System.getenv().get("MONGOLAB_URI");
-		if (mongoLabUri == null) {
-			mongoClientUri = "mongodb://localhost:27017/proffstore_analytics_db";
-			databaseName = "frisbee";
-		} else {
-			mongoClientUri = mongoLabUri;
-			databaseName = "heroku_q1k9ht7d";
-		}
-		final MongoClient client = new MongoClient(new MongoClientURI(mongoClientUri));
-		final MongoDatabase database = client.getDatabase(databaseName);
-		return database;
-	}
-	*/
 }
