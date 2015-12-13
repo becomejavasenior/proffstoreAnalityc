@@ -22,6 +22,16 @@ function drawAll() {
 
 function proffstoreMainChart(stats) {
 	var rows = [ [ 'Category', 'Average Budget' ] ];
+	var i, len, maxStat = 0;
+	for(i = 0, len = stats.length; i < len; i++) {
+		if(stats[i][1] > maxStat) {
+			maxStat = stats[i][1];
+		}
+	}
+	var ticksArray = [];
+	for(i = 0, len = maxStat/1000; i<len; i++) {
+		ticksArray.push(1000*(i+1));
+	}
 	
 	rows = rows.concat(stats);
 	console.log(stats);
@@ -34,6 +44,7 @@ function proffstoreMainChart(stats) {
 		hAxis : {
 			title : 'AVG Budget($)',
 			minValue : 0,
+			ticks: ticksArray
 		},
 		vAxis : {
 			title : 'Category'
