@@ -126,5 +126,12 @@
 			<version>4.10</version>
 		</dependency>
 
+		<!-- Database -->
+		<dependency>
+			<groupId>org.mongodb</groupId>
+			<artifactId>mongodb-driver</artifactId>
+			<version>3.0.4</version>
+		</dependency>
+
 	</dependencies>
 </project>
