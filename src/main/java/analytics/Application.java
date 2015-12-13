@@ -53,7 +53,7 @@ public class Application {
 		/**
 		 * Database initialization
 		 */
-		// MongoDatabase database = getDatabase();
+		//MongoDatabase database = getDatabase();
 
 		/**
 		 * Controllers initialization
@@ -70,6 +70,7 @@ public class Application {
 	}
 
 	// TODO: set local Database name and Heroku database name into properties
+	/*
 	public static MongoDatabase getDatabase() {
 		final String mongoClientUri;
 		final String databaseName;
@@ -85,4 +86,5 @@ public class Application {
 		final MongoDatabase database = client.getDatabase(databaseName);
 		return database;
 	}
+	*/
 }
