@@ -104,6 +104,11 @@ public class ProffstoreController {
 						return Long.compare(o2.getPopularity(), o1.getPopularity());
 					}
 				});
+				
+				
+				int toIndex = skillPopularityList.size() > 15? 15: skillPopularityList.size();
+				skillPopularityList = skillPopularityList.subList(0, toIndex);
+				
 
 				// Convert google chart table
 				JSONArray googleChartTable = new JSONArray();

@@ -85,7 +85,7 @@ function skillsPopularity(stats) {
 		title : 'Skills popularity',
 		width : '100%',
 		height : 600,
-		sliceVisibilityThreshold : .01,
+		sliceVisibilityThreshold : .05,
 		pieResidueSliceLabel : "Other",
 		//pieHole : 0.4
 	};
