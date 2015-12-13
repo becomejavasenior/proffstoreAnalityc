@@ -53,7 +53,7 @@ public class Application {
 		/**
 		 * Database initialization
 		 */
-		MongoDatabase database = getDatabase();
+		// MongoDatabase database = getDatabase();
 
 		/**
 		 * Controllers initialization
