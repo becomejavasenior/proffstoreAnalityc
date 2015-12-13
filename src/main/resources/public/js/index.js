@@ -1,1 +1,0 @@
-// TODO: add jQuery AJAX functions that calls our Controllers methods

@@ -1,6 +1,9 @@
 package analytics.controller;
 
 import static spark.Spark.*;
+
+import org.json.JSONArray;
+
 import analytics.service.ProffstoreService;
 
 public class ProffstoreController {
@@ -27,6 +30,19 @@ public class ProffstoreController {
 
 		get("/getCategoriesList", (request, response) -> {
 			return proffstoreService.getCategoriesList();
+		});
+
+		get("/proffstore/stats", (request, response) -> {
+			JSONArray categories = new JSONArray();
+			for (int i = 0; i < 10; i++) {
+				JSONArray category = new JSONArray();
+				category.put("Category " + i);
+				category.put(i * 1000);
+				categories.put(category);
+			}
+
+			response.type("application/json");
+			return categories;
 		});
 		// TODO: add API GET/POST method(routes)
 		// with analytics from Proffstore

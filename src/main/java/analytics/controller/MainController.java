@@ -36,7 +36,7 @@ public class MainController {
 		get("/", (request, response) -> {
 			Map<String, Object> attributes = new HashMap<>();
 			// TODO: set template variables to the 'attributes' map
-				return new ModelAndView(attributes, "index.html");
+				return new ModelAndView(attributes, "proffstore.html");
 			}, freeMarkerEngine);
 	}
 }
