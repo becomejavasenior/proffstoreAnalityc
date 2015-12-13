@@ -37,7 +37,8 @@ function proffstoreMainChart(stats) {
 		},
 		vAxis : {
 			title : 'Category'
-		}
+		},
+		chartArea: {left:'40%', width: '60%'}
 	};
 	var chart = new google.visualization.BarChart(document
 			.getElementById('avg-budget-per-category'));
