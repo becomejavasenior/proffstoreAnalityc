@@ -222,13 +222,15 @@ public class ProffstoreService {
 
                     System.out.println(i);
                 }
-                System.out.println(skillsMap);
+                //System.out.println(skillsMap);
                 counted = counted + 50;
                 page++;
             }
+
             System.out.println(skillsMap);
 
         }
+
         Gson gson = new GsonBuilder()
                 .setPrettyPrinting()
                 .create();
