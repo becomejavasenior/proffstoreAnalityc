@@ -80,4 +80,26 @@ public class ElanceService {
 			throw new RuntimeException("Server error during Elance auth", e);
 		}
 	}
+
+	public String getJobs(String accessToken, int i) {
+		StringBuilder builder = new StringBuilder();
+		builder.append("https://api.elance.com/api2/jobs?access_token=");
+		builder.append(accessToken);
+		// TODO: append keywords
+		// builder.append("&keywords=").append(keywords);
+		// example: keywords=php
+		String url = builder.toString();
+		try {
+			HttpResponse<JsonNode> jsonResponse = Unirest.get(url).asJson();
+			int responseStatus = jsonResponse.getStatus();
+			if (responseStatus != 200) {
+				throw new RuntimeException(jsonResponse.getStatusText());
+			}
+			String response = jsonResponse.getBody().getObject().toString();
+			return response;
+		} catch (UnirestException e) {
+			throw new RuntimeException("Cannot get elance jobs", e);
+		}
+
+	}
 }
