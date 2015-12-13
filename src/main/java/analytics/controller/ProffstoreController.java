@@ -85,6 +85,10 @@ public class ProffstoreController {
 			response.type("application/json");
 			return proffstoreService.getTasByCategory();
 		});
+		get("proffstore/getSkillsPopularity", (request, response) -> {
+			response.type("application/json;charset=utf-8");
+			return proffstoreService.getSkillsPopularity();
+		});
 		get("proffstore/getAvarageUserRate", (request, response) -> {
 			response.type("application/json");
 			return proffstoreService.getAvarageUserRate();

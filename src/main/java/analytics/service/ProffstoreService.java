@@ -6,6 +6,7 @@ import com.mashape.unirest.http.HttpResponse;
 import com.mashape.unirest.http.JsonNode;
 import com.mashape.unirest.http.Unirest;
 import com.mashape.unirest.http.exceptions.UnirestException;
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -13,6 +14,7 @@ import javax.print.attribute.IntegerSyntax;
 import java.math.BigDecimal;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.HashSet;
 import java.util.Map;
 
 public class ProffstoreService {
@@ -128,7 +130,7 @@ public class ProffstoreService {
     }
 
     public String getTasByCategory() throws UnirestException {
-        HttpResponse<JsonNode> jsonResponse  = Unirest.get("https://proffstore.com/api/v1/tasks?category=10&portion=50")
+        HttpResponse<JsonNode> jsonResponse  = Unirest.get("https://proffstore.com/api/v1/tasks?category=15&portion=50")
                 .header("x-client-code", CLIENT_CODE)
                 .asJson();
         String response = jsonResponse.getBody().getObject().toString();
@@ -183,6 +185,67 @@ public class ProffstoreService {
         return json;
     }
 
+    public String getSkillsPopularity() throws JSONException, UnirestException {
+        Map<String, Integer> categoriesMap = getCategoriesNodeList();
+        Map<String, Integer> skillsMap = new HashMap();
+        for(Map.Entry<String, Integer> entry:categoriesMap.entrySet()) {
+            int categoryId = entry.getValue();
+            System.out.println("categoryId="+categoryId);
+            HttpResponse<JsonNode> jsonResponse  = Unirest.get("https://proffstore.com/api/v1/tasks?category="+categoryId+"&portion=50")
+                    .header("x-client-code", CLIENT_CODE)
+                    .asJson();
+            if(jsonResponse.getBody().getObject().has("error")) {
+                continue;
+            }
+            //Skip, so many wrong data
+            /*if(categoryId ==1) {
+                continue;
+            }*/
+            String total = jsonResponse.getBody().getObject().getJSONObject("paging").get("total").toString();
+
+            int totalInt = Integer.parseInt(total);
+            System.out.println("totalInt="+totalInt);
+            int counted = 0;
+            int page = 1;
+            while(totalInt-counted >0){
+                HttpResponse<JsonNode> json  = Unirest.get("https://proffstore.com/api/v1/tasks?category="+categoryId+"&portion=50&page="+page)
+                        .header("x-client-code", CLIENT_CODE)
+                        .asJson();
+                JSONObject tasks = jsonResponse.getBody().getObject().getJSONObject("tasks");
+                for(int i = 0; i <tasks.names().length(); i++){
+                    String taskName = tasks.names().getString(i);
+                    JSONArray skills = tasks.getJSONObject(taskName).getJSONArray("skills");
+                    for(int j = 0; j <skills.length(); j++){
+                        String skillName = skills.getJSONObject(j).getString("name");
+                        putToMap(skillsMap, skillName);
+                    }
+
+                    System.out.println(i);
+                }
+                System.out.println(skillsMap);
+                counted = counted + 50;
+                page++;
+            }
+            System.out.println(skillsMap);
+
+        }
+        Gson gson = new GsonBuilder()
+                .setPrettyPrinting()
+                .create();
+        String json = gson.toJson(skillsMap);
+        return json;
+    }
+
+    private void putToMap(Map<String, Integer> skillsMap, String skill) {
+        Integer skillCount = skillsMap.get(skill);
+        if(skillCount != null){
+            skillsMap.put(skill, ++skillCount);
+        }
+        else {
+            skillsMap.put(skill, 1);
+        }
+
+    }
     public String getUserList() throws JSONException, UnirestException {
         HttpResponse<JsonNode> json = Unirest.get("https://proffstore.com/api/v1/users?portion=50&page=" + 2)
                 .header("x-client-code", CLIENT_CODE)
