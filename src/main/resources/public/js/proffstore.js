@@ -32,7 +32,7 @@ function proffstoreMainChart(stats) {
 		width : '100%',
 		height : 600,
 		hAxis : {
-			title : 'AVG Budget',
+			title : 'AVG Budget($)',
 			minValue : 0,
 		},
 		vAxis : {
