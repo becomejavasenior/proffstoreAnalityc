@@ -24,6 +24,10 @@ public class ProffstoreController {
 		get("/getTaskList", (request, response) -> {
 			return proffstoreService.getTaskList();
 		});
+
+		get("/getCategoriesList", (request, response) -> {
+			return proffstoreService.getCategoriesList();
+		});
 		// TODO: add API GET/POST method(routes)
 		// with analytics from Proffstore
 	}
