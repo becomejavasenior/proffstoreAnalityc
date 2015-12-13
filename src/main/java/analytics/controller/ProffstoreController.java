@@ -2,11 +2,14 @@ package analytics.controller;
 
 import static spark.Spark.*;
 
+import java.io.InputStream;
+import java.nio.charset.Charset;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.Comparator;
 import java.util.List;
 
+import org.apache.commons.io.IOUtils;
 import org.json.JSONArray;
 import org.json.JSONObject;
 
@@ -83,6 +86,22 @@ public class ProffstoreController {
 			response.type("application/json");
 			return proffstoreService.getTasByCategory();
 		});
+		
+		
+		get("freelancer/getAvarageProjectAmount", (request, response) -> {
+			response.type("application/json");
+			InputStream is = this.getClass().getResourceAsStream("/freelance-budget.json");
+			String result = IOUtils.toString(is, Charset.forName("UTF-8"));
+			return result;
+		});
+		get("freelancer/getSkillsPopularity", (request, response) -> {
+			response.type("application/json");
+			InputStream is = this.getClass().getResourceAsStream("/freelance-skills.json");
+			String result = IOUtils.toString(is, Charset.forName("UTF-8"));
+			return result;
+		});
+		
+		
 		get("proffstore/getSkillsPopularity", (request, response) -> {
 			response.type("application/json;charset=utf-8");
 			String jsonString = proffstoreService.getSkillsPopularity();
