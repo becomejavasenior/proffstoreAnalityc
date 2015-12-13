@@ -65,8 +65,8 @@
 			<artifactId>spark-core</artifactId>
 			<version>2.3</version>
 		</dependency>
-
-
+		
+		
 		<!-- Used for creating HTML templates -->
 		<dependency>
 			<groupId>org.freemarker</groupId>
@@ -78,8 +78,8 @@
 			<artifactId>spark-template-freemarker</artifactId>
 			<version>2.0.0</version>
 		</dependency>
-
-
+		
+		
 		<!-- Used for converting response into JSON -->
 		<dependency>
 			<groupId>com.google.code.gson</groupId>
@@ -126,5 +126,19 @@
 			<version>4.10</version>
 		</dependency>
 
-	</dependencies>
+        <dependency>
+            <groupId>com.mashape.unirest</groupId>
+            <artifactId>unirest-java</artifactId>
+            <version>1.4.7</version>
+        </dependency>
+
+        <dependency>
+            <groupId>com.google.code.gson</groupId>
+            <artifactId>gson</artifactId>
+            <version>2.5</version>
+        </dependency>
+
+
+
+    </dependencies>
 </project>

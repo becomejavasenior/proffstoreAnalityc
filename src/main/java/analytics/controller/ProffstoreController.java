@@ -18,6 +18,12 @@ public class ProffstoreController {
 
 			});
 
+		get("/getAccessToken", (request, response) -> {
+			return proffstoreService.getAccessToken();
+		});
+		get("/getTaskList", (request, response) -> {
+			return proffstoreService.getTaskList();
+		});
 		// TODO: add API GET/POST method(routes)
 		// with analytics from Proffstore
 	}
