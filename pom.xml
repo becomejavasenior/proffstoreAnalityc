@@ -79,14 +79,6 @@
 			<version>2.0.0</version>
 		</dependency>
 
-
-		<!-- Used for converting response into JSON -->
-		<dependency>
-			<groupId>com.google.code.gson</groupId>
-			<artifactId>gson</artifactId>
-			<version>2.3.1</version>
-		</dependency>
-
 		<!-- Upwork -->
 		<dependency>
 			<groupId>com.Upwork</groupId>
@@ -94,12 +86,6 @@
 			<version>1.1.0</version>
 		</dependency>
 
-		<!-- Easy REST requests -->
-		<dependency>
-			<groupId>com.mashape.unirest</groupId>
-			<artifactId>unirest-java</artifactId>
-			<version>1.4.7</version>
-		</dependency>
 		<dependency>
 			<groupId>org.apache.httpcomponents</groupId>
 			<artifactId>httpclient</artifactId>
@@ -131,6 +117,18 @@
 			<groupId>org.mongodb</groupId>
 			<artifactId>mongodb-driver</artifactId>
 			<version>3.0.4</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.mashape.unirest</groupId>
+			<artifactId>unirest-java</artifactId>
+			<version>1.4.7</version>
+		</dependency>
+
+		<dependency>
+			<groupId>com.google.code.gson</groupId>
+			<artifactId>gson</artifactId>
+			<version>2.5</version>
 		</dependency>
 
 	</dependencies>
