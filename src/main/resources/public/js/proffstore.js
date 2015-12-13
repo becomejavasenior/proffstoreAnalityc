@@ -10,7 +10,7 @@ function drawAll() {
 	// other
 	$.ajax({
 		type : 'GET',
-		url : "/proffstore/stats",
+		url : "/proffstore/getAvarageProjectAmount",
 		cache : false,
 		contentType : "application/json; charset=utf-8",
 		dataType : "json",

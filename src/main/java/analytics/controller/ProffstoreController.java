@@ -2,9 +2,13 @@ package analytics.controller;
 
 import static spark.Spark.*;
 
+
 import org.json.JSONArray;
 
+import org.json.JSONObject;
+
 import analytics.service.ProffstoreService;
+
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
 
@@ -39,9 +43,26 @@ public class ProffstoreController {
 			return  json;
 		});
 		get("proffstore/getAvarageProjectAmount", (request, response) -> {
-			return proffstoreService.getAvarageProjectAmount();
+			String jsonString = proffstoreService.getAvarageProjectAmount();
+			
+			// Convert to other Google chart view
+			JSONArray googleChartTable = new JSONArray();
+			JSONObject jsonObject = new JSONObject(jsonString);
+			JSONArray names = jsonObject.names();
+			for (int i = 0; i < names.length(); i++) {
+				String name = names.getString(i);
+				Object value = jsonObject.get(name);
+				JSONArray row = new JSONArray();
+				row.put(name);
+				row.put(value);
+				googleChartTable.put(row);
+			}
+			
+			response.type("application/json");
+			return googleChartTable.toString();
 		});
 		get("proffstore/getTasByCategory", (request, response) -> {
+			response.type("application/json");
 			return proffstoreService.getTasByCategory();
 		});
 
