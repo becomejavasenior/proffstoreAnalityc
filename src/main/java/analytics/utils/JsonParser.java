@@ -1,9 +1,11 @@
 package analytics.utils;
 
 import java.util.ArrayList;
-import java.util.HashMap;
+import java.util.LinkedHashMap;
+import java.util.LinkedHashSet;
 import java.util.List;
 import java.util.Map;
+import java.util.Set;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -14,8 +16,8 @@ public class JsonParser {
 
 	private final static Pattern p = Pattern.compile("-?\\d+");
 
-	public static List<String> getCategories(JSONObject jsonObject) throws JSONException {
-		List<String> result = new ArrayList<>();
+	public static Set<String> getCategories(JSONObject jsonObject) throws JSONException {
+		Set<String> result = new LinkedHashSet<>();
 		for (int i = 0; i < jsonObject.getJSONObject("data").getJSONArray("pageResults").length(); i++) {
 			String categoryName = jsonObject.getJSONObject("data").getJSONArray("pageResults").getJSONObject(i)
 					.getString("category");
@@ -24,14 +26,13 @@ public class JsonParser {
 		return result;
 	}
 
-	public static Map<String, Double> getAverageBudgetPerCategory(List<String> categories, JSONObject jsonObject)
+	public static Map<String, Double> getAverageBudgetPerCategory(Set<String> categories, JSONObject jsonObject)
 			throws JSONException {
-		Map<String, Double> result = new HashMap<>();
+		Map<String, Double> result = new LinkedHashMap<>();
 		for (String etalon : categories) {
 			double averageBudget = 0;
 			int count = 0;
 			for (int i = 0; i < jsonObject.getJSONObject("data").getJSONArray("pageResults").length(); i++) {
-
 				String categoryName;
 				try {
 					categoryName = jsonObject.getJSONObject("data").getJSONArray("pageResults").getJSONObject(i)
@@ -47,7 +48,6 @@ public class JsonParser {
 				} catch (Exception e) {
 					continue;
 				}
-
 			}
 			if (count == 0) {
 				averageBudget = 0;
