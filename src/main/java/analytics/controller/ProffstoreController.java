@@ -5,6 +5,8 @@ import static spark.Spark.*;
 import org.json.JSONArray;
 
 import analytics.service.ProffstoreService;
+import com.google.gson.Gson;
+import com.google.gson.GsonBuilder;
 
 public class ProffstoreController {
 
@@ -21,15 +23,26 @@ public class ProffstoreController {
 
 			});
 
-		get("/getAccessToken", (request, response) -> {
+		get("proffstore/getAccessToken", (request, response) -> {
 			return proffstoreService.getAccessToken();
 		});
-		get("/getTaskList", (request, response) -> {
+		get("proffstore/getTaskList", (request, response) -> {
 			return proffstoreService.getTaskList();
 		});
 
-		get("/getCategoriesList", (request, response) -> {
-			return proffstoreService.getCategoriesList();
+		get("proffstore/getCategoriesList", (request, response) -> {
+
+			Gson gson = new GsonBuilder()
+					.setPrettyPrinting()
+					.create();
+			String json = gson.toJson(proffstoreService.getCategoriesNodeList());
+			return  json;
+		});
+		get("proffstore/getAvarageProjectAmount", (request, response) -> {
+			return proffstoreService.getAvarageProjectAmount();
+		});
+		get("proffstore/getTasByCategory", (request, response) -> {
+			return proffstoreService.getTasByCategory();
 		});
 
 		get("/proffstore/stats", (request, response) -> {
