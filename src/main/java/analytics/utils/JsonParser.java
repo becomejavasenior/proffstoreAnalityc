@@ -49,7 +49,11 @@ public class JsonParser {
 				}
 
 			}
-			averageBudget /= count;
+			if (count == 0) {
+				averageBudget = 0;
+			} else {
+				averageBudget /= count;
+			}
 			result.put(etalon, averageBudget);
 		}
 		return result;
