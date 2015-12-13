@@ -104,9 +104,10 @@ public class ProffstoreService {
                 HttpResponse<JsonNode> json  = Unirest.get("https://proffstore.com/api/v1/tasks?category="+categoryId+"&portion=50&page="+page)
                         .header("x-client-code", CLIENT_CODE)
                         .asJson();
-                for(int i = 0; i <jsonResponse.getBody().getObject().getJSONObject("tasks").names().length(); i++){
-                    String taskName = jsonResponse.getBody().getObject().getJSONObject("tasks").names().getString(i);
-                    double taskAmount = Double.parseDouble(jsonResponse.getBody().getObject().getJSONObject("tasks").getJSONObject(taskName).get("amount").toString());
+                JSONObject tasks = jsonResponse.getBody().getObject().getJSONObject("tasks");
+                for(int i = 0; i <tasks.names().length(); i++){
+                    String taskName = tasks.names().getString(i);
+                    double taskAmount = Double.parseDouble(tasks.getJSONObject(taskName).get("amount").toString());
                     totalAmount += taskAmount;
                     System.out.println(i);
                 }
@@ -114,7 +115,7 @@ public class ProffstoreService {
                 counted = counted + 50;
                 page++;
             }
-            avarageAmount.put(entry.getKey() + "(" +totalInt+")", Math.round(totalAmount/totalInt));
+            avarageAmount.put(entry.getKey() + " (" +totalInt+")", Math.round(totalAmount/totalInt));
             System.out.println("Category: " + entry.getKey() + ", avarage=" + String.valueOf(totalAmount / totalInt));
 
         }
@@ -137,11 +138,58 @@ public class ProffstoreService {
     }
 
     public String getAvarageUserRate() throws JSONException, UnirestException {
-        HttpResponse<JsonNode> jsonResponse  = Unirest.get("https://proffstore.com/api/v1/users?category=&portion=50")
+        HttpResponse<JsonNode> jsonResponse  = Unirest.get("https://proffstore.com/api/v1/users?portion=50")
                 .header("x-client-code", CLIENT_CODE)
                 .asJson();
-        return "";
+        String total = jsonResponse.getBody().getObject().getJSONObject("paging").get("total").toString();
+        int totalInt = Integer.parseInt(total);
+        System.out.println("totalInt="+totalInt);
+        int counted = 0;
+        double userRateSum = 0;
+        int page = 1;
+        int userCountedWithRate = 0;
+        while(totalInt-counted >0){
+            HttpResponse<JsonNode> json  = Unirest.get("https://proffstore.com/api/v1/users?portion=50&page="+page)
+                    .header("x-client-code", CLIENT_CODE)
+                    .asJson();
+            if(!json.getBody().getObject().has("users")){
+                break;
+            }
+            JSONObject users = json.getBody().getObject().getJSONObject("users");
+            for(int i = 0; i <users.names().length(); i++){
+                String userName = users.names().getString(i);
+                Boolean isActive = Boolean.valueOf(users.getJSONObject(userName).get("isActive").toString());
+                if(users.getJSONObject(userName).has("rate") && isActive) {
+                    double userRate = Double.parseDouble(users.getJSONObject(userName).get("rate").toString());
+                    userRateSum += userRate;
+                    //System.out.println(i);
+                    userCountedWithRate++;
+                }
+            }
+            System.out.println(userRateSum +" count" +userCountedWithRate);
+            counted = counted + 50;
+            page++;
+        }
+        Map<String, Long> userRateAvr = new HashMap();
+        userRateAvr.put("userRateAvr ("+userCountedWithRate+")", Math.round(userRateSum / userCountedWithRate));
+        System.out.println("userRateAvr: " + userRateSum / userCountedWithRate);
+
+
+    Gson gson = new GsonBuilder()
+            .setPrettyPrinting()
+            .create();
+    String json = gson.toJson(userRateAvr);
+
+        return json;
     }
 
+    public String getUserList() throws JSONException, UnirestException {
+        HttpResponse<JsonNode> json = Unirest.get("https://proffstore.com/api/v1/users?portion=50&page=" + 2)
+                .header("x-client-code", CLIENT_CODE)
+                .asJson();
 
+        String response = json.getBody().getObject().toString();
+
+        return response;
+    }
 }

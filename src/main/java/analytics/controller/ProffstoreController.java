@@ -85,6 +85,14 @@ public class ProffstoreController {
 			response.type("application/json");
 			return proffstoreService.getTasByCategory();
 		});
+		get("proffstore/getAvarageUserRate", (request, response) -> {
+			response.type("application/json");
+			return proffstoreService.getAvarageUserRate();
+		});
+		get("proffstore/getUserList", (request, response) -> {
+			response.type("application/json");
+			return proffstoreService.getUserList();
+		});
 
 		/** 
 		 * Fake data
