@@ -36,4 +36,16 @@ public class ProffstoreService {
 
     }
 
+    public String getCategoriesList() throws UnirestException {
+        HttpResponse<JsonNode> jsonResponse  = Unirest.get("https://proffstore.com/api/v1/categories")
+                .header("x-client-code", CLIENT_CODE)
+                .asJson();
+        String response = jsonResponse.getBody().getObject().toString();
+
+        return response;
+
+    }
+
+
+
 }
