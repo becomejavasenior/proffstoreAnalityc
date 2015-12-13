@@ -70,6 +70,7 @@ public class JsonParser {
 	}
 
 	private static double getAverage(String string) {
+		string = string.replace(",", "");
 		List<Double> numbers = new ArrayList<>();
 		Matcher m = p.matcher(string);
 		while (m.find()) {
@@ -81,5 +82,6 @@ public class JsonParser {
 		}
 		return numbers.size() > 0 ? numbers.stream().mapToDouble(d -> 1 * d).sum() / numbers.size() : 0d;
 	}
+
 
 }
