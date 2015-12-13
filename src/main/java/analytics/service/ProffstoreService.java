@@ -89,6 +89,10 @@ public class ProffstoreService {
                 avarageAmount.put(entry.getKey(), 0l);
                 continue;
             }
+            //Skip, so many wrong data
+            if(categoryId ==1) {
+                continue;
+            }
             String total = jsonResponse.getBody().getObject().getJSONObject("paging").get("total").toString();
 
             int totalInt = Integer.parseInt(total);
@@ -110,8 +114,8 @@ public class ProffstoreService {
                 counted = counted + 50;
                 page++;
             }
-            avarageAmount.put(entry.getKey(), Math.round(totalAmount/totalInt));
-            System.out.println("Category: "+entry.getKey() +", avarage="+String.valueOf(totalAmount/totalInt));
+            avarageAmount.put(entry.getKey() + "(" +totalInt+")", Math.round(totalAmount/totalInt));
+            System.out.println("Category: " + entry.getKey() + ", avarage=" + String.valueOf(totalAmount / totalInt));
 
         }
         Gson gson = new GsonBuilder()
@@ -130,6 +134,13 @@ public class ProffstoreService {
 
         return response;
 
+    }
+
+    public String getAvarageUserRate() throws JSONException, UnirestException {
+        HttpResponse<JsonNode> jsonResponse  = Unirest.get("https://proffstore.com/api/v1/users?category=&portion=50")
+                .header("x-client-code", CLIENT_CODE)
+                .asJson();
+        return "";
     }
 
 
