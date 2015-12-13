@@ -6,7 +6,7 @@ google.load('visualization', '1.1', {
 google.setOnLoadCallback(drawAll);
 
 function drawAll() {
-
+	$(".loading").show();
 	// other
 	$.ajax({
 		type : 'GET',
@@ -43,4 +43,5 @@ function proffstoreMainChart(stats) {
 	var chart = new google.visualization.BarChart(document
 			.getElementById('avg-budget-per-category'));
 	chart.draw(data, options);
+	$(".loading").hide();
 }

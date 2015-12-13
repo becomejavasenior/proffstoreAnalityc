@@ -2,15 +2,20 @@ package analytics.controller;
 
 import static spark.Spark.*;
 
+import java.util.ArrayList;
+import java.util.Collections;
+import java.util.Comparator;
+import java.util.List;
 
 import org.json.JSONArray;
-
 import org.json.JSONObject;
 
+import analytics.model.CategoryBudget;
 import analytics.service.ProffstoreService;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
+
 
 public class ProffstoreController {
 
@@ -45,18 +50,33 @@ public class ProffstoreController {
 		get("proffstore/getAvarageProjectAmount", (request, response) -> {
 			String jsonString = proffstoreService.getAvarageProjectAmount();
 			
-			// Convert to other Google chart view
-			JSONArray googleChartTable = new JSONArray();
+			// Convert to list
 			JSONObject jsonObject = new JSONObject(jsonString);
 			JSONArray names = jsonObject.names();
+			List<CategoryBudget> categoryBudgetList = new ArrayList<CategoryBudget>(names.length());
 			for (int i = 0; i < names.length(); i++) {
 				String name = names.getString(i);
-				Object value = jsonObject.get(name);
-				JSONArray row = new JSONArray();
-				row.put(name);
-				row.put(value);
-				googleChartTable.put(row);
+				long value = jsonObject.getLong(name);
+				CategoryBudget categoryBudget = new CategoryBudget(name, value);
+				categoryBudgetList.add(categoryBudget);
 			}
+			
+			// Sort
+			Collections.sort(categoryBudgetList, new Comparator<CategoryBudget>() {
+				@Override
+				public int compare(CategoryBudget o1, CategoryBudget o2) {
+					return Long.compare(o2.getBudget(), o1.getBudget());
+				}
+			});
+			
+			// Convert google chart table
+			JSONArray googleChartTable = new JSONArray();
+			for (CategoryBudget categoryBudget : categoryBudgetList) {
+				JSONArray row = new JSONArray();
+				row.put(categoryBudget.getCategory());
+				row.put(categoryBudget.getBudget());
+				googleChartTable.put(row);
+			}	
 			
 			response.type("application/json");
 			return googleChartTable.toString();
@@ -66,6 +86,9 @@ public class ProffstoreController {
 			return proffstoreService.getTasByCategory();
 		});
 
+		/** 
+		 * Fake data
+		 */
 		get("/proffstore/stats", (request, response) -> {
 			JSONArray categories = new JSONArray();
 			for (int i = 0; i < 10; i++) {
