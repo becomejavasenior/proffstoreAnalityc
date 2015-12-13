@@ -1,7 +1,15 @@
 package analytics.controller;
 
 import static spark.Spark.*;
+
+import java.util.ArrayList;
+import java.util.List;
+
+import org.json.JSONArray;
+import org.json.JSONObject;
+
 import analytics.model.AccessToken;
+import analytics.model.CategoryBudget;
 import analytics.service.ElanceService;
 
 public class ElanceController {
@@ -44,8 +52,23 @@ public class ElanceController {
 			}
 			System.out.println(accessToken);
 			response.type("application/json");
-			return elanceService.getJobs(accessToken.getAccessToken(), 0);
-		});
+
+			List<CategoryBudget> categoryBudgetList = new ArrayList<CategoryBudget>();
+			final int freePageCount = 10;
+			for (int j = 0; j < freePageCount; j++) {
+				JSONArray page = elanceService.getJobs(accessToken.getAccessToken(), j);
+				for (int i = 0; i < page.length(); i++) {
+					JSONObject job = page.getJSONObject(i);
+					int budget = job.getInt("maxBudget");
+					String category = job.getString("category");
+					CategoryBudget categoryBudget = new CategoryBudget(category, budget);
+					categoryBudgetList.add(categoryBudget);
+				}
+			}
+			
+
+				return elanceService.getJobs(accessToken.getAccessToken(), 0);
+			});
 
 	}
 }
