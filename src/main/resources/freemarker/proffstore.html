@@ -7,6 +7,9 @@
 <title>Statistics</title>
 <link href="/css/bootstrap.min.css" rel="stylesheet">
 <link href="/css/bootstrap-theme.min.css" rel="stylesheet">
+<link href="/css/font-awesome.min.css" rel="stylesheet">
+<link href="/css/awesome-bootstrap-checkbox.css" rel="stylesheet">
+
 <link href="/css/main.css" rel="stylesheet">
 
 <script>
@@ -29,27 +32,92 @@
 </head>
 <body>
 
-	<div class="loading" style="display:none;">Loading&#8230;</div>
+	<div class="loading" style="display: none;">Loading&#8230;</div>
 
 	<div class="container">
 		<div class="row">
-			<div class="col-md-12">
-				<h1>Freelance Projects Analytics</h1>
-				<p>Developed during Proffstore hackathon</p>
+			<div class="col-md-12 analytic-title">
+				<h1>Аналитика для биржей труда</h1>
+				<p>Разработана на Proffstore hackathon</p>
 			</div>
 		</div>
+		<hr>
+		<div class="row">
+			<div class="col-md-4">
+				<h3>Биржи</h3>
+				<form role="form" id="projects">
+					<div class="checkbox checkbox-circle checkbox-info">
+						<input type="checkbox" id="projects-proffstore" checked> <label
+							for="projects-proffstore"> Proffstore</label>
+					</div>
+					<div class="checkbox checkbox-circle checkbox-info">
+						<input type="checkbox" id="projects-elance" checked> <label
+							for="projects-elance">Elance</label>
+					</div>
+					<div class="checkbox checkbox-circle checkbox-info">
+						<input type="checkbox" id="projects-upwork"> <label
+							for="projects-upwork">UpWork </label>
+					</div>
+					<div class="checkbox checkbox-circle checkbox-info">
+						<input type="checkbox" id="projects-freelancer"> <label
+							for="projects-freelancer">Freelancer.ru </label>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-4">
+				<h3>Показатели</h3>
+				<form role="form" id="indicators">
+					<div class="checkbox checkbox-circle checkbox-info">
+						<input type="checkbox" id="indicators-projects-number"> <label
+							for="indicators-projects-number">Количество проектов </label>
+					</div>
+					<div class="checkbox checkbox-circle checkbox-info">
+						<input type="checkbox" id="indicators-categories" checked>
+						<label for="indicators-categories">Категории</label>
+					</div>
+					<div class="checkbox checkbox-circle checkbox-info">
+						<input type="checkbox" id="indicators-amounts"><label
+							for="indicators-amounts">Суммы заказов </label>
+					</div>
+					<div class="checkbox checkbox-circle checkbox-info">
+						<input type="checkbox" id="indicators-languages" checked><label
+							for="indicators-languages">Языки программирования </label>
+					</div>
+				</form>
+			</div>
+			<div class="col-md-4">
+				<h3>Общая аналитика</h3>
+				<form role="form" id="general-analytics">
+					<div class="checkbox checkbox-circle checkbox-info">
+						<input type="checkbox" id="general-analytics-categories"><label
+							for="general-analytics-categories"> Категории </label>
+					</div>
+					<div class="checkbox checkbox-circle checkbox-info">
+						<input type="checkbox" id="general-analytics-amounts" checked><label
+							for="general-analytics-amounts"> Суммы заказов </label>
+					</div>
+					<div class="checkbox checkbox-circle checkbox-info">
+						<input type="checkbox" id="general-analytics-projects-number"
+							checked> <label for="general-analytics-projects-number">Количество
+							проектов </label>
+					</div>
+				</form>
+			</div>
+		</div>
+		<hr>
 		<div class="row">
 			<div class="col-md-12">
-				<img class="img-responsive center-block" src="/images/proffstore.png">		
+				<img class="img-responsive center-block"
+					src="/images/proffstore.png">
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-md-12">
 				<div id="avg-budget-per-category"></div>
 			</div>
 		</div>
-		
+
 		<div class="row">
 			<div class="col-md-12">
 				<div id="skills-popularity"></div>
