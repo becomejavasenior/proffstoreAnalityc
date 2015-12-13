@@ -4,6 +4,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.Properties;
 
+import org.json.JSONArray;
 import org.json.JSONException;
 import org.json.JSONObject;
 
@@ -81,13 +82,16 @@ public class ElanceService {
 		}
 	}
 
-	public String getJobs(String accessToken, int i) {
+	public JSONArray getJobs(String accessToken, int i) {
 		StringBuilder builder = new StringBuilder();
 		builder.append("https://api.elance.com/api2/jobs?access_token=");
 		builder.append(accessToken);
 		// TODO: append keywords
 		// builder.append("&keywords=").append(keywords);
 		// example: keywords=php
+		if(i > 0) {
+			builder.append("&page=").append(i);
+		}
 		String url = builder.toString();
 		try {
 			HttpResponse<JsonNode> jsonResponse = Unirest.get(url).asJson();
@@ -95,9 +99,11 @@ public class ElanceService {
 			if (responseStatus != 200) {
 				throw new RuntimeException(jsonResponse.getStatusText());
 			}
-			String response = jsonResponse.getBody().getObject().toString();
-			return response;
-		} catch (UnirestException e) {
+			JSONObject jsonObject = jsonResponse.getBody().getObject();
+			JSONArray jsonArray = jsonObject.getJSONObject("data").getJSONArray("pageResults");
+
+			return jsonArray;
+		} catch (UnirestException | JSONException e) {
 			throw new RuntimeException("Cannot get elance jobs", e);
 		}
 

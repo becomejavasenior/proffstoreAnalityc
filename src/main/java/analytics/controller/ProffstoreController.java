@@ -11,11 +11,11 @@ import org.json.JSONArray;
 import org.json.JSONObject;
 
 import analytics.model.CategoryBudget;
+import analytics.model.SkillPopularity;
 import analytics.service.ProffstoreService;
 
 import com.google.gson.Gson;
 import com.google.gson.GsonBuilder;
-
 
 public class ProffstoreController {
 
@@ -41,50 +41,86 @@ public class ProffstoreController {
 
 		get("proffstore/getCategoriesList", (request, response) -> {
 
-			Gson gson = new GsonBuilder()
-					.setPrettyPrinting()
-					.create();
+			Gson gson = new GsonBuilder().setPrettyPrinting().create();
 			String json = gson.toJson(proffstoreService.getCategoriesNodeList());
-			return  json;
+			return json;
 		});
 		get("proffstore/getAvarageProjectAmount", (request, response) -> {
 			String jsonString = proffstoreService.getAvarageProjectAmount();
-			
+
 			// Convert to list
-			JSONObject jsonObject = new JSONObject(jsonString);
-			JSONArray names = jsonObject.names();
-			List<CategoryBudget> categoryBudgetList = new ArrayList<CategoryBudget>(names.length());
-			for (int i = 0; i < names.length(); i++) {
-				String name = names.getString(i);
-				long value = jsonObject.getLong(name);
-				CategoryBudget categoryBudget = new CategoryBudget(name, value);
-				categoryBudgetList.add(categoryBudget);
-			}
-			
-			// Sort
-			Collections.sort(categoryBudgetList, new Comparator<CategoryBudget>() {
-				@Override
-				public int compare(CategoryBudget o1, CategoryBudget o2) {
-					return Long.compare(o2.getBudget(), o1.getBudget());
+				JSONObject jsonObject = new JSONObject(jsonString);
+				JSONArray names = jsonObject.names();
+				List<CategoryBudget> categoryBudgetList = new ArrayList<CategoryBudget>(names.length());
+				for (int i = 0; i < names.length(); i++) {
+					String name = names.getString(i);
+					long value = jsonObject.getLong(name);
+					CategoryBudget categoryBudget = new CategoryBudget(name, value);
+					categoryBudgetList.add(categoryBudget);
 				}
+
+				// Sort
+				Collections.sort(categoryBudgetList, new Comparator<CategoryBudget>() {
+					@Override
+					public int compare(CategoryBudget o1, CategoryBudget o2) {
+						return Long.compare(o2.getBudget(), o1.getBudget());
+					}
+				});
+
+				// Convert google chart table
+				JSONArray googleChartTable = new JSONArray();
+				for (CategoryBudget categoryBudget : categoryBudgetList) {
+					JSONArray row = new JSONArray();
+					row.put(categoryBudget.getCategory());
+					row.put(categoryBudget.getBudget());
+					googleChartTable.put(row);
+				}
+
+				response.type("application/json;charset=utf-8");
+				return googleChartTable.toString();
 			});
-			
-			// Convert google chart table
-			JSONArray googleChartTable = new JSONArray();
-			for (CategoryBudget categoryBudget : categoryBudgetList) {
-				JSONArray row = new JSONArray();
-				row.put(categoryBudget.getCategory());
-				row.put(categoryBudget.getBudget());
-				googleChartTable.put(row);
-			}	
-			
-			response.type("application/json");
-			return googleChartTable.toString();
-		});
 		get("proffstore/getTasByCategory", (request, response) -> {
 			response.type("application/json");
 			return proffstoreService.getTasByCategory();
 		});
+		get("proffstore/getSkillsPopularity", (request, response) -> {
+			response.type("application/json;charset=utf-8");
+			String jsonString = proffstoreService.getSkillsPopularity();
+
+			JSONObject jsonObject = new JSONObject(jsonString);
+			JSONArray names = jsonObject.names();
+			List<SkillPopularity> skillPopularityList = new ArrayList<SkillPopularity>(names.length());
+			for (int i = 0; i < names.length(); i++) {
+				String name = names.getString(i);
+				long value = jsonObject.getLong(name);
+				SkillPopularity skillPopularity = new SkillPopularity(name, value);
+				skillPopularityList.add(skillPopularity);
+			}
+
+			// Sort
+				Collections.sort(skillPopularityList, new Comparator<SkillPopularity>() {
+					@Override
+					public int compare(SkillPopularity o1, SkillPopularity o2) {
+						return Long.compare(o2.getPopularity(), o1.getPopularity());
+					}
+				});
+				
+				
+				int toIndex = skillPopularityList.size() > 15? 15: skillPopularityList.size();
+				skillPopularityList = skillPopularityList.subList(0, toIndex);
+				
+
+				// Convert google chart table
+				JSONArray googleChartTable = new JSONArray();
+				for (SkillPopularity skillPopularity : skillPopularityList) {
+					JSONArray row = new JSONArray();
+					row.put(skillPopularity.getSkill());
+					row.put(skillPopularity.getPopularity());
+					googleChartTable.put(row);
+				}
+
+				return googleChartTable.toString();
+			});
 		get("proffstore/getAvarageUserRate", (request, response) -> {
 			response.type("application/json");
 			return proffstoreService.getAvarageUserRate();
@@ -94,7 +130,7 @@ public class ProffstoreController {
 			return proffstoreService.getUserList();
 		});
 
-		/** 
+		/**
 		 * Fake data
 		 */
 		get("/proffstore/stats", (request, response) -> {
