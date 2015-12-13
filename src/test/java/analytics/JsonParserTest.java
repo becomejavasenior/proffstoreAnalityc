@@ -17,8 +17,8 @@ import junit.framework.Assert;
 
 public class JsonParserTest {
 
-	private final static double averageBugetSum = 517.5;
-	private final static double[] averageBugetsPerCategory = { 500, 0, 0, 0, 17.5 };
+	private final static double averageBugetSum = 1317.5;
+	private final static double[] averageBugetsPerCategory = { 255, 750, 166.25, 0, 146.25, 0 };
 
 	private static JSONObject readJsonFile(String fileName) throws JSONException {
 		StringBuilder result = new StringBuilder("");
@@ -43,14 +43,17 @@ public class JsonParserTest {
 			Assert.assertEquals(JsonParser.getCategories(readJsonFile("json.txt")).size(),
 					JsonParser.getAverageBudgetPerCategory(JsonParser.getCategories(readJsonFile("json.txt")),
 							readJsonFile("json.txt")).size());
-			Assert.assertEquals(JsonParser.getCategories(readJsonFile("json15cat.txt")).size(),
-					JsonParser.getAverageBudgetPerCategory(JsonParser.getCategories(readJsonFile("json15cat.txt")),
-							readJsonFile("json15cat.txt")).size());
+			Assert.assertEquals(6, JsonParser.getCategories(readJsonFile("json16cat.txt")).size());
+			Assert.assertEquals(JsonParser.getCategories(readJsonFile("json16cat.txt")).size(),
+					JsonParser.getAverageBudgetPerCategory(JsonParser.getCategories(readJsonFile("json16cat.txt")),
+							readJsonFile("json16cat.txt")).size());
 			Assert.assertEquals(JsonParser.getCategories(readJsonFile("json6cat.txt")).size(),
 					JsonParser.getAverageBudgetPerCategory(JsonParser.getCategories(readJsonFile("json6cat.txt")),
 							readJsonFile("json6cat.txt")).size());
 			Map<String, Double> averageBudgetsMap = JsonParser.getAverageBudgetPerCategory(
-					JsonParser.getCategories(readJsonFile("json6cat.txt")), readJsonFile("json6cat.txt"));
+					JsonParser.getCategories(readJsonFile("json16cat.txt")), readJsonFile("json16cat.txt"));
+			//System.out.println(averageBudgetsMap.keySet());
+			//System.out.println(averageBudgetsMap.values());
 			Assert.assertEquals(averageBugetSum, sum(averageBudgetsMap));
 			Assert.assertTrue(isEqual(averageBudgetsMap.values(), averageBugetsPerCategory));
 		} catch (JSONException e) {
@@ -60,6 +63,7 @@ public class JsonParserTest {
 
 	private boolean isEqual(Collection<Double> values, double[] averageBugetsPerCategory) {
 		int count = 0;
+		//System.out.println(values);
 		for (double d : values) {
 			if (d == averageBugetsPerCategory[count]) {
 				count++;
